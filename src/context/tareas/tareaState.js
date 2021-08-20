@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import tareaContext from './tareaContext';
 import TareaReducer from './tareaReducer';
 
-import { TAREAS_PROYECTO, AGREGAR_TAREA } from '../../types';
+import { TAREAS_PROYECTO, AGREGAR_TAREA, VALIDAR_TAREA } from '../../types';
 
 const TareaState = props => {
   const initialState = {
@@ -20,7 +20,8 @@ const TareaState = props => {
       { nombre: 'Elegir Plataformas de pago', estado: false, proyectoId: 3 },
       { nombre: 'Elegir Hosting', estado: true, proyectoId: 2 },
     ],
-    tareasProyecto: null
+    tareasProyecto: null,
+    errorTarea: false
   }
 
   const [state, dispatch] = useReducer(TareaReducer, initialState);
@@ -39,14 +40,22 @@ const TareaState = props => {
     })
   }
 
+  const validarTarea = () => {
+    dispatch({
+      type: VALIDAR_TAREA
+    })
+  }
+
   return (
     <tareaContext.Provider
       value={
         {
           tareas: state.tareas,
           tareasProyecto: state.tareasProyecto,
+          errorTarea: state.errorTarea,
           obtenerTareas,
-          agregarTarea
+          agregarTarea,
+          validarTarea
         }
       }
     >
