@@ -1,20 +1,17 @@
 import React, { useContext } from 'react'
 import Tarea from './Tarea';
 import proyectoContext from '../../context/proyectos/proyectoContext';
+import tareaContext from '../../context/tareas/tareaContext';
 
 const ListadoTareas = () => {
 
   const proyectosContext = useContext(proyectoContext);
   const { proyecto, eliminarProyecto } = proyectosContext;
 
-  if (!proyecto) return <h2>Selecciona un proyecto</h2>
+  const tareasContext = useContext(tareaContext);
+  const { tareasProyecto } = tareasContext;
 
-  const tareasProyecto = [
-    { nombre: 'Elegir Plataforma', estado: true },
-    { nombre: 'Elegir Colores', estado: false },
-    { nombre: 'Elegir Plataforma de pago', estado: false },
-    { nombre: 'Elegir Hosting', estado: true },
-  ];
+  if (!proyecto) return <h2>Selecciona un proyecto</h2>
 
   const onClickEliminar = () => {
     eliminarProyecto(proyecto.id);
