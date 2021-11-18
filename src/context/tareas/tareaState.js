@@ -2,23 +2,28 @@ import React, { useReducer } from 'react';
 import tareaContext from './tareaContext';
 import TareaReducer from './tareaReducer';
 
-import { TAREAS_PROYECTO, AGREGAR_TAREA, VALIDAR_TAREA } from '../../types';
+import {
+  TAREAS_PROYECTO,
+  AGREGAR_TAREA,
+  VALIDAR_TAREA,
+  ELIMINAR_TAREA
+} from '../../types';
 
 const TareaState = props => {
   const initialState = {
     tareas: [
-      { nombre: 'Elegir Plataforma', estado: true, proyectoId: 1 },
-      { nombre: 'Elegir Colores', estado: false, proyectoId: 2 },
-      { nombre: 'Elegir Plataformas de pago', estado: false, proyectoId: 3 },
-      { nombre: 'Elegir Hosting', estado: true, proyectoId: 4 },
-      { nombre: 'Elegir Plataforma', estado: true, proyectoId: 2 },
-      { nombre: 'Elegir Colores', estado: false, proyectoId: 3 },
-      { nombre: 'Elegir Plataformas de pago', estado: false, proyectoId: 1 },
-      { nombre: 'Elegir Hosting', estado: true, proyectoId: 2 },
-      { nombre: 'Elegir Plataforma', estado: true, proyectoId: 1 },
-      { nombre: 'Elegir Colores', estado: false, proyectoId: 3 },
-      { nombre: 'Elegir Plataformas de pago', estado: false, proyectoId: 3 },
-      { nombre: 'Elegir Hosting', estado: true, proyectoId: 2 },
+      { id: 1, nombre: 'Elegir Plataforma', estado: true, proyectoId: 1 },
+      { id: 2, nombre: 'Elegir Colores', estado: false, proyectoId: 2 },
+      { id: 3, nombre: 'Elegir Plataformas de pago', estado: false, proyectoId: 3 },
+      { id: 4, nombre: 'Elegir Hosting', estado: true, proyectoId: 4 },
+      { id: 5, nombre: 'Elegir Plataforma', estado: true, proyectoId: 2 },
+      { id: 6, nombre: 'Elegir Colores', estado: false, proyectoId: 3 },
+      { id: 7, nombre: 'Elegir Plataformas de pago', estado: false, proyectoId: 1 },
+      { id: 8, nombre: 'Elegir Hosting', estado: true, proyectoId: 2 },
+      { id: 9, nombre: 'Elegir Plataforma', estado: true, proyectoId: 1 },
+      { id: 10, nombre: 'Elegir Colores', estado: false, proyectoId: 3 },
+      { id: 11, nombre: 'Elegir Plataformas de pago', estado: false, proyectoId: 3 },
+      { id: 12, nombre: 'Elegir Hosting', estado: true, proyectoId: 2 },
     ],
     tareasProyecto: null,
     errorTarea: false
@@ -46,6 +51,13 @@ const TareaState = props => {
     })
   }
 
+  const eliminarTarea = id => {
+    dispatch({
+      type: ELIMINAR_TAREA,
+      payload: id
+    })
+  }
+
   return (
     <tareaContext.Provider
       value={
@@ -55,7 +67,8 @@ const TareaState = props => {
           errorTarea: state.errorTarea,
           obtenerTareas,
           agregarTarea,
-          validarTarea
+          validarTarea,
+          eliminarTarea
         }
       }
     >
