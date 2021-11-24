@@ -8,7 +8,10 @@ import {
   AGREGAR_TAREA,
   VALIDAR_TAREA,
   ELIMINAR_TAREA,
-  ESTADO_TAREA
+  ESTADO_TAREA,
+  TAREA_ACTUAL,
+  ACTUALIZAR_TAREA,
+  LIMPIAR_TAREA
 } from '../../types';
 
 const TareaState = props => {
@@ -28,7 +31,8 @@ const TareaState = props => {
       { id: 12, nombre: 'Elegir Hosting', estado: true, proyectoId: 2 },
     ],
     tareasProyecto: null,
-    errorTarea: false
+    errorTarea: false,
+    tareaSeleccionada: null
   }
 
   const [state, dispatch] = useReducer(TareaReducer, initialState);
@@ -69,6 +73,26 @@ const TareaState = props => {
     });
   }
 
+  const guardarTareaActual = tarea => {
+    dispatch({
+      type: TAREA_ACTUAL,
+      payload: tarea
+    })
+  }
+
+  const actualizarTarea = tarea => {
+    dispatch({
+      type: ACTUALIZAR_TAREA,
+      payload: tarea
+    })
+  }
+
+  const eliminarTareaSeleccionada = () => {
+    dispatch({
+      type: LIMPIAR_TAREA
+    })
+  }
+
   return (
     <tareaContext.Provider
       value={
@@ -76,11 +100,15 @@ const TareaState = props => {
           tareas: state.tareas,
           tareasProyecto: state.tareasProyecto,
           errorTarea: state.errorTarea,
+          tareaSeleccionada: state.tareaSeleccionada,
           obtenerTareas,
           agregarTarea,
           validarTarea,
           eliminarTarea,
-          cambiarEstadoTarea
+          cambiarEstadoTarea,
+          guardarTareaActual,
+          actualizarTarea,
+          eliminarTareaSeleccionada
         }
       }
     >
