@@ -1,11 +1,15 @@
 import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom';
 import AlertaContext from '../../context/alertas/alertaContext';
+import AuthContext from '../../context/autenticacion/authContext';
 
 const NuevaCuenta = () => {
 
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
+
+  const authContext = useContext(AuthContext);
+  const { registrarUsuario } = authContext;
 
   const [usuario, guardarUsuario] = useState({
     nombre: '',
@@ -31,7 +35,24 @@ const NuevaCuenta = () => {
       || password.trim() === ''
       || confirmar.trim() === '') {
         mostrarAlerta('Todos los campos son obligatorios', 'alerta-error' );
+        return;
       }
+    
+    if (password.length < 6) {
+      mostrarAlerta('El password debe ser de al menos 6 caracteres', 'alerta-error');
+      return;
+    }
+    
+    if (password !== confirmar) {
+      mostrarAlerta('Los passwords no son iguales', 'alerta-error');
+      return;
+    }
+
+    registrarUsuario({
+      name: nombre,
+      email,
+      password
+    });
   }
 
   return (
