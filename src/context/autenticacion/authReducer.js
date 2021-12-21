@@ -4,7 +4,8 @@ import {
   OBTENER_PROYECTOS,
   LOGIN_EXITOSO,
   LOGIN_ERROR,
-  CERRAR_SESION
+  CERRAR_SESION,
+  OBTENER_USUARIO
 } from '../../types/index';
 
 export default (state, action) => {
@@ -14,8 +15,13 @@ export default (state, action) => {
     return {
       ...state,
       autenticado: true,
-      message: null,
+      mensaje: null,
       token: action.payload.token
+    }
+  case OBTENER_USUARIO:
+    return {
+      ...state,
+      usuario: action.payload
     }
   case REGISTRO_ERROR:
     return {

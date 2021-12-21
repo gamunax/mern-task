@@ -8,9 +8,11 @@ import {
   OBTENER_PROYECTOS,
   LOGIN_EXITOSO,
   LOGIN_ERROR,
-  CERRAR_SESION
+  CERRAR_SESION,
+  OBTENER_USUARIO
 } from '../../types/index';
 import clienteAxios from '../../config/axios';
+import { tokenAuth } from '../../config/token';
 
 const AuthState = props => {
   const initialState = {
@@ -26,11 +28,12 @@ const AuthState = props => {
     try {
       console.log(datos);
       const respuesta = await clienteAxios.post('/api/usuarios', datos);
-      console.log(respuesta);
       dispatch({
         type: REGISTRO_EXITOSO,
         payload: respuesta.data
       });
+
+      usuarioAutenticado();
     } catch (error) {
       // console.log(error.response.data.msg);
       const alerta = {
@@ -40,6 +43,26 @@ const AuthState = props => {
       dispatch({
         type: REGISTRO_ERROR,
         payload: alerta
+      });
+    }
+  }
+
+  const usuarioAutenticado = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      tokenAuth(token);
+    }
+
+    try {
+      const respuesta = await clienteAxios.get('api/auth');
+      dispatch({
+        type: OBTENER_USUARIO,
+        payload: respuesta.data.usuario
+      });
+    } catch (error) {
+      console.error('error', error);
+      dispatch({
+        type: LOGIN_ERROR
       });
     }
   }
