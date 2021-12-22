@@ -19,7 +19,8 @@ const AuthState = props => {
     token: localStorage.getItem('token'),
     autenticado: null,
     usuario: null,
-    mensaje: null
+    mensaje: null,
+    cargando: true
   }
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -60,11 +61,51 @@ const AuthState = props => {
         payload: respuesta.data.usuario
       });
     } catch (error) {
-      console.error('error', error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'alerta-error'
+      };
       dispatch({
-        type: LOGIN_ERROR
+        type: LOGIN_ERROR,
+        payload: alerta
       });
     }
+  }
+
+  const iniciarSesion = async datos => {
+    try {
+      const respuesta = await clienteAxios.post('api/auth', datos);
+      dispatch({
+        type: LOGIN_EXITOSO,
+        payload: respuesta.data
+      });
+      usuarioAutenticado();
+    } catch (error) {
+      const err = error.response?.data;
+      let alerta = { categoria: 'alerta-error'};
+      if (err?.errors) {
+        const [{ msg }] = err?.errors;
+        alerta = {
+          ...alerta,
+          msg
+        };
+      } else {
+        alerta = {
+          ...alerta,
+          msg: err?.msg
+        };
+      }
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: alerta
+      });
+    }
+  }
+
+  const cerrarSesion = () => {
+    dispatch({
+      type: CERRAR_SESION
+    });
   }
 
   return (
@@ -74,7 +115,11 @@ const AuthState = props => {
         autenticado: state.autenticado,
         usuario: state.usuario,
         mensaje: state.mensaje,
-        registrarUsuario
+        cargando: state.cargando,
+        registrarUsuario,
+        iniciarSesion,
+        usuarioAutenticado,
+        cerrarSesion
       }}
     >
       {props.children}
