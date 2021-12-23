@@ -4,7 +4,8 @@ import {
   OBTENER_PROYECTOS,
   VALIDAR_FORMULARIO,
   PROYECTO_ACTUAL,
-  ELIMINAR_PROYECTO
+  ELIMINAR_PROYECTO,
+  PROYECTO_ERROR
 } from '../../types';
 
 export default (state, action) => {
@@ -34,14 +35,20 @@ export default (state, action) => {
     case PROYECTO_ACTUAL: {
       return {
         ...state,
-        proyecto: state.proyectos.find(({ id }) => id === action.payload)
+        proyecto: state.proyectos.find(({ _id }) => _id === action.payload)
       }
     }
     case ELIMINAR_PROYECTO: {
       return {
         ...state,
-        proyectos: state.proyectos.filter(({ id }) => id !== action.payload),
+        proyectos: state.proyectos.filter(({ _id }) => _id !== action.payload),
         proyecto: null
+      }
+    }
+    case PROYECTO_ERROR: {
+      return {
+        ...state,
+        mensaje: action.payload
       }
     }
     default:

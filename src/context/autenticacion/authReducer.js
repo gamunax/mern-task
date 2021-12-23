@@ -8,7 +8,7 @@ import {
   OBTENER_USUARIO
 } from '../../types/index';
 
-export default (state, action) => {
+const authReducer = (state, action) => {
   switch (action.type) {
     case LOGIN_EXITOSO:
     case REGISTRO_EXITOSO:
@@ -43,3 +43,5 @@ export default (state, action) => {
       return state;
   }
 }
+
+export default authReducer;

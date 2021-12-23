@@ -49,6 +49,7 @@ const AuthState = props => {
   }
 
   const usuarioAutenticado = async () => {
+    console.log('1');
     const token = localStorage.getItem('token');
     if (token) {
       tokenAuth(token);

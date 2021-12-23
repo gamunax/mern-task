@@ -13,10 +13,10 @@ const NuevoProyecto = () => {
   } = proyectosContext;
 
   const [proyecto, guardarProyecto] = useState({
-    nombre: ''
+    name: ''
   });
 
-  const { nombre } = proyecto;
+  const { name } = proyecto;
 
   const onChangeProyecto = e => {
     guardarProyecto({
@@ -28,7 +28,7 @@ const NuevoProyecto = () => {
   const onSubmitProyecto = e => {
     e.preventDefault();
 
-    if (nombre === '') {
+    if (name === '') {
       mostrarError();
       return;
     };
@@ -36,7 +36,7 @@ const NuevoProyecto = () => {
     agregarProyecto(proyecto);
 
     guardarProyecto({
-      nombre: ''
+      name: ''
     });
   }
 
@@ -66,8 +66,8 @@ const NuevoProyecto = () => {
                 type="text"
                 className="input-text"
                 placeholder="Nombre proyecto"
-                name="nombre"
-                value={nombre}
+                name="name"
+                value={name}
                 onChange={onChangeProyecto}
               />
 

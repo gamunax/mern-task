@@ -3,6 +3,7 @@ import { MOSTRAR_ALERTA, OCULTAR_ALERTA } from '../../types/index';
 export default (state, action) => {
   switch (action.type) {
     case MOSTRAR_ALERTA:
+      console.log(action);
       return {
         alerta: action.payload
       }
